@@ -17,6 +17,53 @@ if (score === null) аналогично if (!score)
 
 updateScoreElement();
 
+let isAutoPlaying = false;
+let intervalID;
+
+function autoPlay() {
+  if (!isAutoPlaying) {
+  intervalID = setInterval(() => { //arrow function
+    // setInterval() has a different IDs each iteration
+    const playerMove = pickComputerMove();
+    playGame(playerMove);
+  }, 1000) //autoplays the game every 1000ms (1  second)
+  isAutoPlaying = true;
+  } else {
+    clearInterval(intervalID); //to stop running the setInterval()
+    isAutoPlaying = false;
+  }
+}
+
+document.querySelector('.js-rock-button')
+  .addEventListener('click', () => {
+    playGame('rock');
+  }) //when rock-button clicked calls playGame('rock')
+
+document.querySelector('.js-paper-button')
+  .addEventListener('click', () => {
+    playGame('paper');
+  })
+
+document.querySelector('.js-scissors-button')
+  .addEventListener('click', () => {
+    playGame('scissors');
+})
+
+document.querySelector('.js-auto-play-button')
+  .addEventListener('click', () => {
+    autoPlay();
+})
+
+document.body.addEventListener('keydown', (event) => { //listens to an event from the keyboard
+  if (event.key === 'r') { //if 'r' pressed
+    playGame('rock');
+  } else if (event.key === 'p') {
+    playGame('paper');
+  } else if (event.key === 's') {
+    playGame('scissors');
+  }
+});
+
 function playGame(playerMove) {
   const computerMove = pickComputerMove();
 
